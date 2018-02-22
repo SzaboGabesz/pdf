@@ -312,7 +312,7 @@ class Backend extends Container implements BackendInterface
 
 		$xml = $this->documentXML->asXml();
 
-		if (($tagPos = strpos($xml, $search)) === false)
+		if (($tagPos = mb_strpos($xml, $search)) === false)
 		{
 			throw new RuntimeException
 			(
@@ -457,11 +457,11 @@ class Backend extends Container implements BackendInterface
 	 */
 	protected function findRowStart($xml, $offset)
 	{
-		$rowStart = strrpos($xml, '<w:tr ', ((strlen($xml)-$offset)*-1));
+		$rowStart = mb_strrpos($xml, '<w:tr ', ((mb_strlen($xml)-$offset)*-1));
 
 		if (!$rowStart)
 		{
-			$rowStart = strrpos($xml, '<w:tr>', ((strlen($xml)-$offset)*-1));
+			$rowStart = mb_strrpos($xml, '<w:tr>', ((mb_strlen($xml)-$offset)*-1));
 		}
 
 		if (!$rowStart)
@@ -492,7 +492,7 @@ class Backend extends Container implements BackendInterface
 	 */
 	protected function findRowEnd($xml, $offset)
 	{
-		$rowEnd = strpos($xml, "</w:tr>", $offset) + 7;
+		$rowEnd = mb_strpos($xml, "</w:tr>", $offset) + 7;
 		return $rowEnd;
 	}
 	
@@ -701,7 +701,7 @@ class Backend extends Container implements BackendInterface
 	 */
 	protected function normaliseStartTag($value)
 	{
-		if (substr($value, 0, 2) !== '${' && substr($value, -1) !== '}')
+		if (mb_substr($value, 0, 2) !== '${' && mb_substr($value, -1) !== '}')
 		{
 			$value = '${'.$value.'}';
 		}
@@ -724,7 +724,7 @@ class Backend extends Container implements BackendInterface
 	 */
 	protected function normaliseEndTag($value)
 	{
-		if (substr($value, 0, 2) !== '${/' && substr($value, -1) !== '}')
+		if (mb_substr($value, 0, 2) !== '${/' && mb_substr($value, -1) !== '}')
 		{
 			$value = '${/'.$value.'}';
 		}
